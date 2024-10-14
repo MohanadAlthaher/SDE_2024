@@ -1,0 +1,139 @@
+.home-page {
+  background-image: url('https://t3.ftcdn.net/jpg/05/74/12/86/360_F_574128647_mO3OeZLdPObKYOxuWOtoAcqij8yMuDPM.jpg');
+  background-size: cover; /* Cover the entire background */
+  background-repeat: no-repeat; /* No repetition of the background */
+  padding: 20px; /* Space inside the homepage */
+  color: #333; /* Darker text for contrast */
+}
+
+h1 {
+  text-align: center; /* Centered title */
+  font-size: 2.5em; /* Larger font size */
+  margin-bottom: 10px; /* Space below title */
+}
+
+h3 {
+  text-align: center; /* Centered subtitle */
+  font-size: 1.5em; /* Font size for subtitle */
+  margin-bottom: 20px; /* Space below subtitle */
+}
+
+.search-bar {
+  display: flex; /* Use flexbox for alignment */
+  justify-content: center; /* Center search bar */
+  margin-bottom: 20px; /* Space below search bar */
+}
+
+.search-bar input {
+  width: 300px; /* Fixed width for the input */
+  padding: 10px; /* Padding inside the input */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+}
+
+.categories {
+  text-align: center; /* Center categories section */
+  margin-bottom: 20px; /* Space below categories */
+}
+
+.category-list {
+  display: flex; /* Use flexbox for category layout */
+  justify-content: center; /* Center categories */
+  gap: 20px; /* Space between categories */
+}
+
+.category-item {
+  text-align: center; /* Center text in category items */
+}
+
+.category-image {
+  width: 100px; /* Set width for category images */
+  height: 100px; /* Set height for category images */
+  object-fit: cover; /* Maintain aspect ratio */
+  border-radius: 8px; /* Rounded corners for images */
+}
+
+.category-button {
+  margin-top: 10px; /* Space between image and button */
+  padding: 5px 10px; /* Padding inside button */
+  background-color: #007bff; /* Button background color */
+  color: white; /* Button text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded button */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+.category-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.filters {
+  margin-bottom: 20px; /* Space below filters */
+  text-align: center; /* Center filters section */
+}
+
+.filter-group {
+  margin-bottom: 10px; /* Space below each filter group */
+}
+
+.product-list {
+  display: flex; /* Use flexbox for product layout */
+  justify-content: center; /* Center products */
+  flex-wrap: wrap; /* Allow wrapping */
+  gap: 20px; /* Space between product cards */
+  margin: 20px 0; /* Space around product list */
+}
+
+.product-card {
+  background-color: #ffffff; /* White background for the card */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: transform 0.3s, box-shadow 0.3s; /* Animation for hover effects */
+  overflow: hidden; /* Ensures the image doesn't overflow the card */
+  text-align: center; /* Center text in product cards */
+  width: 150px; /* Set a consistent width for the product card */
+  padding: 10px; /* Space inside the card */
+}
+
+.product-card:hover {
+  transform: translateY(-5px); /* Lift the card on hover */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+.product-card img {
+  width: 100%; /* Make the image take full width of the card */
+  height: 120px; /* Fixed height for the image */
+  object-fit: cover; /* Cover to maintain aspect ratio */
+  border-bottom: 1px solid #ddd; /* Divider between image and text */
+}
+
+.product-card h2 {
+  font-size: 1em; /* Standard font size */
+  margin: 10px 0; /* Space around the title */
+}
+
+.product-card p {
+  font-size: 0.9em; /* Smaller font size for details */
+  color: #555; /* Grey color for less emphasis */
+  margin: 5px 0; /* Space around paragraphs */
+}
+
+.product-card button {
+  background-color: #007bff; /* Button color */
+  color: white; /* Button text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded button */
+  padding: 8px 10px; /* Padding inside button */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth color change on hover */
+  font-size: 0.9em; /* Font size for the button */
+}
+
+.product-card button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.show-more {
+  text-align: center; /* Center the show more button */
+  margin-top: 20px; /* Space above the button */
+}
