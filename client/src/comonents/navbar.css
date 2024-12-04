@@ -1,0 +1,57 @@
+/* Styles for the Navbar */
+
+/* Main container */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #fff; /* Adjust background color as needed */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow for the navbar */
+  }
+  
+  /* Logo styles */
+  .logo {
+    width: 50px;
+    height: auto;
+  }
+  
+  /* Brand name */
+  .brand-name {
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Right section (Cart + Buttons) */
+  .right-section {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between items */
+  }
+  
+  /* Cart icon */
+  .cart-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  /* Buttons */
+  .navbar-button {
+    padding: 8px 16px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .navbar-button:hover {
+    background-color: #0056b3;
+  }
+  

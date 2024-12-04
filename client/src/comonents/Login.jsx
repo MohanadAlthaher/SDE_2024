@@ -1,34 +1,24 @@
 import React from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './comonents/Signup.css'; // Import the CSS file
+import './Login.css'; 
 
-const Signup = () => {
+
+const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
+    // Add your login logic here
     const formData = new FormData(event.target);
-    const username = formData.get('username');
     const email = formData.get('email');
     const password = formData.get('password');
-    console.log('Username:', username);
     console.log('Email:', email);
     console.log('Password:', password);
   };
 
   return (
     <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-      <Form onSubmit={handleSubmit} className="container">
-        <h2 className="mb-4 text-center">Sign Up</h2>
-        <Form.Group controlId="formBasicUsername">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter username"
-            name="username"
-            required
-          />
-        </Form.Group>
-
+      <Form onSubmit={handleSubmit} style={{ width: '400px' }}>
+        <h2 className="mb-4 text-center">Login</h2>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
@@ -50,11 +40,11 @@ const Signup = () => {
         </Form.Group>
 
         <Button variant="primary" type="submit" className="w-100">
-          Sign Up
+          Login
         </Button>
       </Form>
     </Container>
   );
 };
 
-export default Signup;
+export default Login;
