@@ -9,7 +9,6 @@ const {
   deleteProduct,
   listAllProducts,
   listRelatedProducts,
-  listCategories,
   searchProducts,
   filterProductsByCriteria,
   getProductPhoto
@@ -21,7 +20,6 @@ const { userById } = require('../controllers/user');
 router.get('/product/:productId', getProductDetails);           // Get product details
 router.get('/products', listAllProducts);                      // List all products
 router.get('/products/related/:productId', listRelatedProducts); // List related products
-router.get('/products/categories', listCategories);            // List product categories
 router.get('/products/search', searchProducts);                // Search products
 router.post('/products/filter', filterProductsByCriteria);     // Filter products by criteria
 router.get('/product/photo/:productId', getProductPhoto);       // Get product photo
