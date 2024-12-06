@@ -7,7 +7,7 @@ const { errorHandler } = require('../helpers/dbErrorHandler');
 // Get product by ID middleware
 exports.productById = async (req, res, next, id) => {
   try {
-    const product = await Product.findById(id).populate('category').exec();
+    const product = await Product.findById(id).exec();
     if (!product) {
       return res.status(400).json({ error: 'Product not found' });
     }
@@ -34,14 +34,9 @@ exports.create = async (req, res) => {
       return res.status(400).json({ error: 'Image could not be uploaded' });
     }
 
-    const { name, description, price, quantity } = fields;
+    const { name, description, price, quantity, shipping } = fields;
 
-    if (
-      !name ||
-      !description ||
-      !price ||
-      !quantity 
-    ) {
+    if (!name || !description || !price || !quantity) {
       return res.status(400).json({ error: 'All fields are required' });
     }
 
@@ -118,7 +113,6 @@ exports.list = async (req, res) => {
   try {
     const products = await Product.find()
       .select('-photo')
-      .populate('category')
       .sort([[sortBy, order]])
       .limit(limit)
       .exec();
@@ -127,7 +121,6 @@ exports.list = async (req, res) => {
     return res.status(400).json({ error: 'Products not found' });
   }
 };
-
 
 // List products by search
 exports.listBySearch = async (req, res) => {
@@ -144,8 +137,6 @@ exports.listBySearch = async (req, res) => {
           $gte: req.body.filters[key][0],
           $lte: req.body.filters[key][1],
         };
-      } else {
-        findArgs[key] = req.body.filters[key];
       }
     }
   }
@@ -153,7 +144,6 @@ exports.listBySearch = async (req, res) => {
   try {
     const products = await Product.find(findArgs)
       .select('-photo')
-      .populate('category')
       .sort([[sortBy, order]])
       .skip(skip)
       .limit(limit)
@@ -179,10 +169,6 @@ exports.listSearch = async (req, res) => {
 
   if (req.query.search) {
     query.name = { $regex: req.query.search, $options: 'i' };
-
-    if (req.query.category && req.query.category !== 'All') {
-      query.category = req.query.category;
-    }
 
     try {
       const products = await Product.find(query).select('-photo').exec();
