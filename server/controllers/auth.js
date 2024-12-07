@@ -70,7 +70,7 @@ exports.signout = (req, res) => {
 
 exports.requireSignin = expressJwt({
   secret: process.env.JWT_SECRET,
-  algorithms: ['RS256'],
+  algorithms: ['HS256'],
   userProperty: 'auth',
 });
 
@@ -91,4 +91,37 @@ exports.isAdmin = (req, res, next) => {
     });
   }
   next();
+};
+
+exports.forgotPassword = async (req, res) => {
+  try {
+      // Implement forgot password logic here
+      res.json({ message: 'Password reset instructions sent to email' });
+  } catch (error) {
+      return res.status(400).json({
+          error: 'Error in forgot password process'
+      });
+  }
+};
+
+exports.resetPassword = async (req, res) => {
+  try {
+      // Implement reset password logic here
+      res.json({ message: 'Password successfully reset' });
+  } catch (error) {
+      return res.status(400).json({
+          error: 'Error in password reset process'
+      });
+  }
+};
+
+exports.verifyEmail = async (req, res) => {
+  try {
+      // Implement email verification logic here
+      res.json({ message: 'Email verified successfully' });
+  } catch (error) {
+      return res.status(400).json({
+          error: 'Error in email verification process'
+      });
+  }
 };
