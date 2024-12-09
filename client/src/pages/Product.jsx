@@ -4,8 +4,8 @@ import { Link, useParams } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import { useDispatch } from "react-redux";
 import { addCart } from "../redux/action";
-
 import { Footer, Navbar } from "../components";
+import toast from "react-hot-toast";
 
 const Product = () => {
   const { id } = useParams();
@@ -18,22 +18,30 @@ const Product = () => {
 
   const addProduct = (product) => {
     dispatch(addCart(product));
+    toast.success("Added to cart");
   };
 
   useEffect(() => {
     const getProduct = async () => {
-      setLoading(true);
-      setLoading2(true);
-      const response = await fetch(`http://localhost:5000/api/products/${id}`);
-      const data = await response.json();
-      setProduct(data);
-      setLoading(false);
-      const response2 = await fetch(
-        `http://localhost:5000/api/products${data.category}`
-      );
-      const data2 = await response2.json();
-      setSimilarProducts(data2);
-      setLoading2(false);
+      try {
+        setLoading(true);
+        setLoading2(true);
+        const response = await fetch(`http://localhost:5000/api/products/${id}`);
+        const data = await response.json();
+        setProduct(data);
+        setLoading(false);
+
+        const response2 = await fetch(
+          `http://localhost:5000/api/products?category=${data.category}`
+        );
+        const data2 = await response2.json();
+        setSimilarProducts(data2.filter(p => p._id !== id));
+        setLoading2(false);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+        setLoading(false);
+        setLoading2(false);
+      }
     };
     getProduct();
   }, [id]);
@@ -130,7 +138,7 @@ const Product = () => {
           <div className="d-flex">
             {similarProducts.map((item) => {
               return (
-                <div key={item.id} className="card mx-4 text-center">
+                <div key={item._id} className="card mx-4 text-center">
                   <img
                     className="card-img-top p-3"
                     src={item.image}
@@ -143,12 +151,9 @@ const Product = () => {
                       {item.title.substring(0, 15)}...
                     </h5>
                   </div>
-                  {/* <ul className="list-group list-group-flush">
-                    <li className="list-group-item lead">${product.price}</li>
-                  </ul> */}
                   <div className="card-body">
                     <Link
-                      to={"/product/" + item.id}
+                      to={"/product/" + item._id}
                       className="btn btn-dark m-1"
                     >
                       Buy Now
@@ -168,6 +173,7 @@ const Product = () => {
       </>
     );
   };
+
   return (
     <>
       <Navbar />
@@ -175,7 +181,7 @@ const Product = () => {
         <div className="row">{loading ? <Loading /> : <ShowProduct />}</div>
         <div className="row my-5 py-5">
           <div className="d-none d-md-block">
-          <h2 className="">You may also Like</h2>
+            <h2 className="">You may also Like</h2>
             <Marquee
               pauseOnHover={true}
               pauseOnClick={true}
