@@ -26,3 +26,7 @@ Tech Stack
   Version Control:
 
     Git: For version control, managed through GitHub.
+  Testing:
+
+    Jest: Used for unit and integration testing of the frontend components.
+    Mocha/Chai: Backend testing framework.
