@@ -35,4 +35,16 @@ Installation
   Prerequisites
     Node.js: Make sure you have Node.js installed. Download it here
     MySQL: You’ll need MySQL installed and running on your machine. Download it here
-
+Frontend Setup
+  Clone the repository:
+  
+  bash
+  Copy code
+  git clone https://github.com/MohanadAlthaher/SDE_2024.git
+  cd SDE_2024
+  Install frontend dependencies:
+  
+  bash
+  Copy code
+  cd client
+  npm install
