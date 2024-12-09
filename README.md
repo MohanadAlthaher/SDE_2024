@@ -23,3 +23,6 @@ Tech Stack
     Express.js: Web application framework for Node.js to handle routing and requests.
     JWT (JSON Web Tokens): Authentication mechanism for securely managing user sessions.
     MySQL: Relational database management system for storing user, product, and order data.
+  Version Control:
+
+    Git: For version control, managed through GitHub.
