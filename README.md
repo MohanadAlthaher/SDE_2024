@@ -30,3 +30,8 @@ Tech Stack
 
     Jest: Used for unit and integration testing of the frontend components.
     Mocha/Chai: Backend testing framework.
+
+Installation
+  Prerequisites
+    Node.js: Make sure you have Node.js installed. Download it here
+
