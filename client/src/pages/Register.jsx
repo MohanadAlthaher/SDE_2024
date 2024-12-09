@@ -1,22 +1,63 @@
 import React, { useState } from 'react';
 import { Footer, Navbar } from "../components";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Add useNavigate
+import toast from 'react-hot-toast'; // For notifications
 
 const Register = () => {
-    // State to track form validity
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        password: ''
+    });
     const [formValid, setFormValid] = useState(false);
 
-    // Function to validate form
-    const handleInputChange = () => {
+    const handleInputChange = (e) => {
+        const { id, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [id.toLowerCase()]: value
+        }));
+
+        // Validation logic
         const name = document.getElementById("Name").value.trim();
         const email = document.getElementById("Email").value.trim();
         const password = document.getElementById("Password").value.trim();
 
-        // Check if all fields are filled and email contains '@'
         if (name && email.includes("@") && password.length >= 6) {
             setFormValid(true);
         } else {
             setFormValid(false);
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        try {
+            const response = await fetch('http://localhost:5000/api/user/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: formData.name,
+                    email: formData.email,
+                    password: formData.password
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                toast.success('Registration successful!');
+                navigate('/login');
+            } else {
+                toast.error(data.message || 'Registration failed');
+            }
+        } catch (error) {
+            console.error('Registration error:', error);
+            toast.error('Registration failed. Please try again.');
         }
     };
 
@@ -28,7 +69,7 @@ const Register = () => {
                 <hr />
                 <div className="row my-4 h-100">
                     <div className="col-md-4 col-lg-4 col-sm-8 mx-auto">
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <div className="form my-3">
                                 <label htmlFor="Name">Full Name</label>
                                 <input
@@ -37,6 +78,7 @@ const Register = () => {
                                     id="Name"
                                     placeholder="Enter Your Name"
                                     onChange={handleInputChange}
+                                    value={formData.name}
                                 />
                             </div>
                             <div className="form my-3">
@@ -47,6 +89,7 @@ const Register = () => {
                                     id="Email"
                                     placeholder="name@example.com"
                                     onChange={handleInputChange}
+                                    value={formData.email}
                                 />
                             </div>
                             <div className="form my-3">
@@ -57,21 +100,17 @@ const Register = () => {
                                     id="Password"
                                     placeholder="Password (min. 6 characters)"
                                     onChange={handleInputChange}
+                                    value={formData.password}
                                 />
                             </div>
                             <div className="my-3">
-                                <p>
-                                    Already have an account?{" "}
-                                    <Link to="/login" className="text-decoration-underline text-info">
-                                        Login
-                                    </Link>
-                                </p>
+                                <p>Already have an account? <Link to="/login" className="text-decoration-underline text-info">Login</Link></p>
                             </div>
                             <div className="text-center">
                                 <button
                                     className="my-2 mx-auto btn btn-dark"
                                     type="submit"
-                                    disabled={!formValid} // Button is enabled only when form is valid
+                                    disabled={!formValid}
                                 >
                                     Register
                                 </button>
