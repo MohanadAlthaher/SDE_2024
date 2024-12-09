@@ -48,3 +48,64 @@ Frontend Setup
   Copy code
   cd client
   npm install
+
+  Frontend Setup
+Clone the repository:
+
+bash
+Copy code
+git clone https://github.com/your-username/shoe-ecommerce.git
+cd shoe-ecommerce
+Install frontend dependencies:
+
+bash
+Copy code
+cd client
+npm install
+Run the React app:
+
+bash
+Copy code
+npm start
+Backend Setup
+Install backend dependencies:
+
+bash
+Copy code
+cd server
+npm install
+Create a .env file in the root of the server folder and add your MySQL database credentials:
+
+env
+Copy code
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=password
+DB_NAME=shoe_ecommerce
+JWT_SECRET=your_jwt_secret
+Run the backend server:
+
+bash
+Copy code
+node app.js
+Database Setup
+Import the MySQL schema from the db/ folder or create tables manually based on the application’s requirements.
+Ensure the necessary tables (users, products, orders, etc.) are created in your MySQL database.
+Usage
+Visit the frontend on http://localhost:3000 to browse, add items to the cart, and check out.
+Admin users (Sellers) can log in to their dashboard to manage listings and orders.
+Testing
+Run the tests for the frontend:
+
+bash
+Copy code
+npm test
+Run the tests for the backend (using Mocha):
+
+bash
+Copy code
+npm test -- --backend
+License
+This project is licensed under the MIT License.
+
+
