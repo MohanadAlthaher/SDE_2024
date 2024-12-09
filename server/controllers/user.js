@@ -1,84 +1,49 @@
+const express = require('express')
+const bcrypt = require('bcrypt')
 const User = require('../models/user');
-const { Order } = require('../models/order');
-const { errorHandler } = require('../helpers/dbErrorHandler');
+const {sendResponseError} = require('../middleware/middleware')
+const {checkPassword, newToken} = require('../utils/utility.function')
+//const { Order } = require('../models/order');
+//const { errorHandler } = require('../helpers/dbErrorHandler');
 
-exports.userById = async (req, res, next, id) => {
+const signUpUser = async (req, res) => {
+  const {name, email, password} = req.body
   try {
-    const user = await User.findById(id);
+    const hash = await bcrypt.hash(password, 8)
+
+    await User.create({...req.body, password: hash})
+    res.status(201).send('Sucessfully account opened ')
+    return
+  } catch (err) {
+    console.log('Eorror : ', err)
+    sendResponseError(500, 'Something wrong please try again', res)
+    return
+  }
+}
+
+const signInUser = async (req, res) => {
+  const {password, email} = req.body
+  console.log(req.body)
+  try {
+    const user = await User.findOne({email})
     if (!user) {
-      return res.status(400).json({ error: 'User not found' });
+      sendResponseError(400, 'You have to Sign up first !', res)
     }
-    req.profile = user;
-    next();
-  } catch (err) {
-    return res.status(400).json({ error: 'User not found' });
-  }
-};
 
-exports.read = (req, res) => {
-  req.profile.hashed_password = undefined;
-  req.profile.salt = undefined;
-  return res.json(req.profile);
-};
-
-exports.update = async (req, res) => {
-  try {
-    const user = await User.findByIdAndUpdate(
-      { _id: req.profile._id },
-      { $set: req.body },
-      { new: true }
-    );
-    if (!user) {
-      return res.status(400).json({
-        error: 'You are not authorized to perform this action',
-      });
+    const same = await checkPassword(password, user.password)
+    if (same) {
+      let token = newToken(user)
+      res.status(200).send({status: 'ok', token})
+      return
     }
-    user.hashed_password = undefined;
-    user.salt = undefined;
-    res.json(user);
+    sendResponseError(400, 'InValid password !', res)
   } catch (err) {
-    return res.status(400).json({
-      error: 'You are not authorized to perform this action',
-    });
+    console.log('EROR', err)
+    sendResponseError(500, `Error ${err}`, res)
   }
-};
+}
 
-exports.addOrderToUserHistory = async (req, res, next) => {
-  let history = [];
-
-  req.body.order.products.forEach((item) => {
-    history.push({
-      _id: item._id,
-      name: item.name,
-      description: item.description,
-      quantity: item.count,
-      amount: req.body.order.amount,
-    });
-  });
-
-  try {
-    await User.findByIdAndUpdate(
-      { _id: req.profile._id },
-      { $push: { history: history } },
-      { new: true }
-    );
-    next();
-  } catch (error) {
-    return res.status(400).json({
-      error: 'Could not update user purchase history',
-    });
-  }
-};
-
-exports.purchaseHistory = async (req, res) => {
-  try {
-    const orders = await Order.find({ user: req.profile._id })
-      .populate('user', '_id name')
-      .sort('-created');
-    res.json(orders);
-  } catch (err) {
-    return res.status(400).json({
-      error: errorHandler(err),
-    });
-  }
-};
+const getUser = async (req, res) => {
+  res.status(200).send({user: req.user})
+}
+module.exports = {signUpUser, signInUser, getUser}

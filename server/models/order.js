@@ -1,20 +1,19 @@
 const mongoose = require('mongoose')
 
-const PurchaseSchema = mongoose.Schema({
+const OrderSchema = mongoose.Schema({
     userId:{
         type: String,
         required: true,
     },
-    items:[{
-        productId:{
+     productId:{
             type: String,
             required: true
         },
-        quantity:{
+    quantity:{
             type: Number,
             required:true
         }
-    }],
+,
     amount_paid:{
         type: Number,
         required: true
@@ -25,6 +24,6 @@ const PurchaseSchema = mongoose.Schema({
     timestamps: true
 });
 
-const PurchaseModel = mongoose.model("Order", OrderSchema, "orders")
+const Order = mongoose.model("Order", OrderSchema, "orders")
 
-module.exports = OrderModel
+module.exports = Order

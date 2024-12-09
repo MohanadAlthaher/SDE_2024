@@ -1,66 +1,39 @@
-const { Order } = require('../models/order');
-const { errorHandler } = require('../helpers/dbErrorHandler');
+const Cart = require('../models/order')
+const {sendResponseError} = require('../middleware/middleware')
 
-exports.orderById = async (req, res, next, id) => {
+const getCartProducts = async (req, res) => {
   try {
-    const order = await Order.findById(id)
-      .populate('products.product', 'name price')
-      .exec();
-    if (!order) {
-      return res.status(400).json({
-        error: 'Order not found',
-      });
-    }
-    req.order = order;
-    next();
+    const carts = await Cart.find({userId: req.user._id}).populate('productId')
+    // console.log(carts)
+    res.status(200).send({status: 'ok', carts})
   } catch (err) {
-    return res.status(400).json({
-      error: errorHandler(err),
-    });
+    console.log(err)
+    sendResponseError(500, `Error ${err}`, res)
   }
-};
+}
 
-exports.create = async (req, res) => {
+const addProductInCart = async (req, res) => {
+  const {productId, count} = req.body
   try {
-    req.body.order.user = req.profile;
-    const order = new Order(req.body.order);
-    const data = await order.save();
-    res.json(data);
-  } catch (error) {
-    return res.status(400).json({
-      error: errorHandler(error),
-    });
-  }
-};
+    const cart = await Cart.findOneAndUpdate(
+      {productId},
+      {productId, count, userId: req.user._id},
+      {upsert: true},
+    )
 
-exports.listOrders = async (req, res) => {
-  try {
-    const orders = await Order.find()
-      .populate('user', '_id name address')
-      .sort('-created')
-      .exec();
-    res.json(orders);
-  } catch (error) {
-    return res.status(400).json({
-      error: errorHandler(error),
-    });
-  }
-};
-
-exports.getStatusValues = (req, res) => {
-  res.json(Order.schema.path('status').enumValues);
-};
-
-exports.updateOrderStatus = async (req, res) => {
-  try {
-    const order = await Order.updateOne(
-      { _id: req.body.orderId },
-      { $set: { status: req.body.status } }
-    );
-    res.json(order);
+    res.status(201).send({status: 'ok', cart})
   } catch (err) {
-    return res.status(400).json({
-      error: errorHandler(err),
-    });
+    console.log(err)
+    sendResponseError(500, `Error ${err}`, res)
   }
-};
+}
+const deleteProductInCart = async (req, res) => {
+  try {
+    await Cart.findByIdAndRemove(req.params.id)
+    res.status(200).send({status: 'ok'})
+  } catch (e) {
+    console.log(e)
+    sendResponseError(500, `Error ${err}`, res)
+  }
+}
+module.exports = {addProductInCart, deleteProductInCart, getCartProducts}
