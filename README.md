@@ -34,4 +34,5 @@ Tech Stack
 Installation
   Prerequisites
     Node.js: Make sure you have Node.js installed. Download it here
+    MySQL: You’ll need MySQL installed and running on your machine. Download it here
 
