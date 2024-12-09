@@ -10,36 +10,58 @@ const signUpUser = async (req, res) => {
   const {name, email, password} = req.body
   try {
     const hash = await bcrypt.hash(password, 8)
+    
+    // Create user with explicit fields
+    const newUser = await User.create({
+      name: name,
+      email: email,
+      password: hash
+    });
 
-    await User.create({...req.body, password: hash})
-    res.status(201).send('Sucessfully account opened ')
-    return
+    console.log('User created:', newUser); // Add this log to verify user creation
+    res.status(201).json({ message: 'Successfully account opened', user: newUser });
+    return;
   } catch (err) {
-    console.log('Eorror : ', err)
-    sendResponseError(500, 'Something wrong please try again', res)
-    return
+    console.log('Error creating user:', err);
+    // Check for duplicate email
+    if (err.code === 11000) {
+      sendResponseError(400, 'Email already exists', res);
+      return;
+    }
+    sendResponseError(500, 'Something wrong please try again', res);
+    return;
   }
 }
 
 const signInUser = async (req, res) => {
   const {password, email} = req.body
-  console.log(req.body)
+  
+  if (!email || !password) {
+    return sendResponseError(400, 'Email and password are required', res);
+  }
+
   try {
     const user = await User.findOne({email})
     if (!user) {
-      sendResponseError(400, 'You have to Sign up first !', res)
+      return sendResponseError(400, 'User not found. Please sign up first!', res)
     }
 
     const same = await checkPassword(password, user.password)
     if (same) {
       let token = newToken(user)
-      res.status(200).send({status: 'ok', token})
-      return
+      return res.status(200).json({
+        status: 'ok',
+        token,
+        user: {
+          name: user.name,
+          email: user.email
+        }
+      })
     }
-    sendResponseError(400, 'InValid password !', res)
+    return sendResponseError(400, 'Invalid password!', res)
   } catch (err) {
-    console.log('EROR', err)
-    sendResponseError(500, `Error ${err}`, res)
+    console.log('ERROR:', err)
+    return sendResponseError(500, 'Server error. Please try again.', res)
   }
 }
 

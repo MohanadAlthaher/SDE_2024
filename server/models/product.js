@@ -1,31 +1,39 @@
 const mongoose = require('mongoose');
-//const { ObjectId } = mongoose.Schema;
 
 const productSchema = mongoose.Schema(
   {
-    name: {
+    title: {
       type: String,
       trim: true,
       required: true,
-      maxlength: 32,
+      maxlength: 100
     },
     description: {
       type: String,
       required: true,
-      maxlength: 2000,
+      maxlength: 2000
     },
     price: {
       type: Number,
-      trim: true,
-      required: true,
-      maxlength: 32,
+      required: true
     },
-    quantity: {
-      type: Number,
+    category: {
+      type: String,
+      required: true
     },
-    photo: {
-      data: Buffer,
-      contentType: String,
+    image: {
+      type: String,
+      required: true
+    },
+    rating: {
+      rate: {
+        type: Number,
+        default: 0
+      },
+      count: {
+        type: Number,
+        default: 0
+      }
     }
   },
   { timestamps: true }
