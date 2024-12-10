@@ -8,7 +8,7 @@ Features
   Seller Dashboard: Sellers can list their shoes, manage stock, and track sales.
 Tech Stack
   This project uses the following technologies:
-  
+  c
   Frontend:
   
     React: JavaScript library for building the user interface.
