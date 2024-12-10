@@ -16,7 +16,7 @@ Tech Stack
     CSS: Styling for the website layout.
     Bootstrap: Frontend framework for responsive design.
     Thymeleaf: Java templating engine udsed for server-side rendering of dynamic content.
-  Backend:
+  Backend:d
   
     JavaFX: Used for building the server-side logic and managing the application’s backend processes.
     Node.js: JavaScript runtime environment for handling server-side operations.
