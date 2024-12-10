@@ -15,7 +15,7 @@ Tech Stack
     HTML: Markup language for structuring the web content.
     CSS: Styling for the website layout.
     Bootstrap: Frontend framework for responsive design.
-    Thymeleaf: Java templating engine used for server-side rendering of dynamic content.
+    Thymeleaf: Java templating engine udsed for server-side rendering of dynamic content.
   Backend:
   
     JavaFX: Used for building the server-side logic and managing the application’s backend processes.
