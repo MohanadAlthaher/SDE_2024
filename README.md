@@ -9,8 +9,7 @@ Features
 Tech Stack
   This project uses the following technologies:
   c
-  Frontend:E
-  
+  Frontend:
     React: JavaScript library for building the user interface.
     HTML: Markup language for structuring the web content.
     CSS: Styling for the website layout.
